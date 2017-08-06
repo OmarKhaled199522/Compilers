@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="compiler" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/compiler" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="include" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/compiler" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="include/DfaConverter.h" />
+		<Unit filename="include/LeftAdjust.h" />
+		<Unit filename="include/NFA.h" />
+		<Unit filename="include/Panic_Mode_Recovery.h" />
+		<Unit filename="include/Scanner.h" />
+		<Unit filename="include/element.h" />
+		<Unit filename="include/first_finder.h" />
+		<Unit filename="include/follow_finder.h" />
+		<Unit filename="include/minimizer.h" />
+		<Unit filename="include/next_token.h" />
+		<Unit filename="include/patterns_recognizer.h" />
+		<Unit filename="include/scanner_gammar.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="src/DfaConverter.cpp" />
+		<Unit filename="src/LeftAdjust.cpp" />
+		<Unit filename="src/NFA.cpp" />
+		<Unit filename="src/Panic_Mode_Recovery.cpp" />
+		<Unit filename="src/Scanner.cpp" />
+		<Unit filename="src/element.cpp" />
+		<Unit filename="src/first_finder.cpp" />
+		<Unit filename="src/follow_finder.cpp" />
+		<Unit filename="src/minimizer.cpp" />
+		<Unit filename="src/next_token.cpp" />
+		<Unit filename="src/patterns_recognizer.cpp" />
+		<Unit filename="src/scanner_gammar.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

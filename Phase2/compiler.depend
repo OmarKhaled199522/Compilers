@@ -1,0 +1,98 @@
+# depslib dependency file v1.0
+1491768166 source:c:\users\fady yousry\desktop\compiler\src\dfaconverter.cpp
+	<bits/stdc++.h>
+	"DfaConverter.h"
+
+1491707112 c:\users\fady yousry\desktop\compiler\include\dfaconverter.h
+	<bits/stdc++.h>
+
+1492821704 source:c:\users\fady yousry\desktop\compiler\src\element.cpp
+	"element.h"
+
+1492781742 c:\users\fady yousry\desktop\compiler\include\element.h
+	"bits/stdc++.h"
+
+1493211180 source:c:\users\fady yousry\desktop\compiler\src\first_finder.cpp
+	"first_finder.h"
+
+1493209429 c:\users\fady yousry\desktop\compiler\include\first_finder.h
+	"bits/stdc++.h"
+	"element.h"
+	"follow_finder.h"
+
+1492880697 c:\users\fady yousry\desktop\compiler\include\follow_finder.h
+	<bits/stdc++.h>
+	"element.h"
+
+1493135787 source:c:\users\fady yousry\desktop\compiler\src\follow_finder.cpp
+	"follow_finder.h"
+
+1492975752 source:c:\users\fady yousry\desktop\compiler\src\leftadjust.cpp
+	"LeftAdjust.h"
+	<bits/stdc++.h>
+
+1492805403 c:\users\fady yousry\desktop\compiler\include\leftadjust.h
+	<bits/stdc++.h>
+
+1492718848 source:c:\users\fady yousry\desktop\compiler\src\minimizer.cpp
+	"minimizer.h"
+
+1492718734 c:\users\fady yousry\desktop\compiler\include\minimizer.h
+	"bits/stdc++.h"
+	"patterns_recognizer.h"
+
+1492720048 c:\users\fady yousry\desktop\compiler\include\patterns_recognizer.h
+	"bits/stdc++.h"
+
+1493479885 source:c:\users\fady yousry\desktop\compiler\src\next_token.cpp
+	"next_token.h"
+
+1492720554 c:\users\fady yousry\desktop\compiler\include\next_token.h
+	"bits/stdc++.h"
+
+1491673704 source:c:\users\fady yousry\desktop\compiler\src\nfa.cpp
+	"NFA.h"
+
+1491673082 c:\users\fady yousry\desktop\compiler\include\nfa.h
+	<bits/stdc++.h>
+
+1492718400 source:c:\users\fady yousry\desktop\compiler\src\patterns_recognizer.cpp
+	"patterns_recognizer.h"
+	<iostream>
+	<fstream>
+
+1491844804 source:c:\users\fady yousry\desktop\compiler\src\scanner.cpp
+	"Scanner.h"
+
+1491842522 c:\users\fady yousry\desktop\compiler\include\scanner.h
+	"NFA.h"
+	<bits/stdc++.h>
+
+1492981056 source:c:\users\fady yousry\desktop\compiler\src\scanner_gammar.cpp
+	"scanner_gammar.h"
+
+1492849158 c:\users\fady yousry\desktop\compiler\include\scanner_gammar.h
+	<bits/stdc++.h>
+	"element.h"
+
+1493467040 source:c:\users\fady yousry\desktop\compiler\src\panic_mode_recovery.cpp
+	"Panic_Mode_Recovery.h"
+
+1493211838 c:\users\fady yousry\desktop\compiler\include\panic_mode_recovery.h
+	"next_token.h"
+	"bits/stdc++.h"
+
+1493464022 source:c:\users\fady yousry\desktop\compiler\main.cpp
+	<iostream>
+	<bits/stdc++.h>
+	<bits/stdc++.h>
+	"element.h"
+	"scanner_gammar.h"
+	"first_finder.h"
+	"scanner.h"
+	"DfaConverter.h"
+	"minimizer.h"
+	"next_token.h"
+	"LeftAdjust.h"
+	"Panic_Mode_Recovery.h"
+
