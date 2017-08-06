@@ -1,0 +1,17 @@
+all: 
+	flex lex.l
+	bison -y -d syntax.y
+	g++ -std=c++11 lex.yy.c y.tab.c -o output
+
+java:
+	javac test.java
+	javap -c test.class
+
+error: 
+	bison --verbose syntax.y
+
+run: all
+	./output code
+	java -jar ./jasmin-1.1/jasmin.jar outputfile.j
+	java test
+

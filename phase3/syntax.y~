@@ -1,0 +1,573 @@
+%{
+
+#include "bytecode_inst.h"
+#include <fstream>
+#include <iostream>
+#include <stdio.h>
+#include <map>
+#include <cstring>
+#include <vector>
+#include <unistd.h>
+
+using namespace std;
+
+extern int yylex();
+extern FILE *yyin;
+extern int lineCounter;
+void yyerror(const char * s);
+
+string outfileName;
+
+ofstream fout("outputfile.j");
+
+void setCodeSteps(vector<int> *list, int num);
+void generateByteCode(string x);
+void printCode(void);
+string initiateLabel();
+string getLabel(int n);
+void initializeHeader(void);
+void initializeFooter(void);
+void castGeneral (string x, int type_t1);
+void castGeneralOperations(int from , int to, string op);
+void castGeneralRelations(string op,char * nTrue, char * nFalse);
+bool checkId(string id);
+string getOp(string op);
+void setAllowedVariables(string name, int type);
+
+
+typedef enum {INT_T, FLOAT_T, BOOL_T, VOID_T, ERROR_T} type_enum;
+
+map<string, pair<int,type_enum> > symbolTable;
+vector<string> codeSteps;
+vector<int> * getNextStep (vector<int> *list1, vector<int>* list2);
+
+int globalVarNum = 1;
+int labelCounter = 0;
+
+void printLineNumber(int num) {
+	generateByteCode(".line "+ to_string(num));
+}
+
+%}
+
+%code requires {
+	#include <vector>
+	using namespace std;
+}
+
+%start method_body
+
+%union{
+
+	int intValue;
+	int boolValue;
+	int sType;
+	float floatValue;
+	char * idValue;
+	char * aopValue;
+
+	struct {
+		int sType;
+	} expr_type;
+
+	struct {
+		vector<int> *trueList, *falseList;
+	} bexpr_type;
+
+	struct {
+		vector<int> *nextList;
+	} stmt_type;
+}
+
+%token <intValue> INT
+%token <floatValue> FLOAT
+%token <boolValue> BOOL
+%token <idValue> IDENTIFIER
+%token <aopValue> ARITH_OP
+%token <aopValue> RELA_OP
+%token <aopValue> BOOL_OP
+
+%token INT_WORD
+%token FLOAT_WORD
+%token BOOLEAN_WORD
+
+%token SEMI_COLON
+%token EQUALS
+
+%token IF_WORD
+%token ELSE_WORD
+%token WHILE_WORD
+%token FOR_WORD
+
+%token LEFT_BRACKET
+%token RIGHT_BRACKET
+%token LEFT_BRACKET_CURLY
+%token RIGHT_BRACKET_CURLY
+
+%type <sType> primitive_type
+%type <expr_type> expression
+%type <bexpr_type> b_expression
+%type <stmt_type> statement
+%type <stmt_type> statement_list
+%type <stmt_type> if
+%type <stmt_type> while
+%type <stmt_type> for
+
+%type <intValue> marker
+%type <intValue> goto
+%token SYSTEM_OUT
+
+
+%%
+method_body:
+	{	initializeHeader();	}
+	statement_list
+	marker
+	{
+		setCodeSteps($2.nextList,$3);
+		initializeFooter();
+	}
+	;
+statement_list:
+	 statement
+	|
+	statement
+	marker
+	statement_list
+	{
+		setCodeSteps($1.nextList,$2);
+		$$.nextList = $3.nextList;
+	}
+	;
+marker:
+{
+	$$ = labelCounter;
+	generateByteCode(initiateLabel() + ":");
+}
+;
+statement:
+	declaration {vector<int> * v = new vector<int>(); $$.nextList =v;}
+	|if {$$.nextList = $1.nextList;}
+	|while 	{$$.nextList = $1.nextList;}
+	|for {$$.nextList = $1.nextList;}
+	| assignment {vector<int> * v = new vector<int>(); $$.nextList =v;}
+	| system_print {vector<int> * v = new vector<int>(); $$.nextList =v;}
+	;
+declaration:
+	primitive_type IDENTIFIER SEMI_COLON /* implement multi-variable declaration */
+	{
+		string str($2);
+		if($1 == INT_T)
+		{
+			setAllowedVariables(str,INT_T);
+		}else if ($1 == FLOAT_T)
+		{
+			setAllowedVariables(str,FLOAT_T);
+		}
+	}
+	;
+primitive_type:
+	INT_WORD {$$ = INT_T;}
+	| FLOAT_WORD {$$ = FLOAT_T;}
+	|BOOLEAN_WORD {$$ = BOOL_T;}
+	;
+goto:
+{
+	$$ = codeSteps.size();
+	generateByteCode("goto ");
+}
+;
+if:
+	IF_WORD LEFT_BRACKET
+	b_expression
+	RIGHT_BRACKET LEFT_BRACKET_CURLY
+	marker
+	statement_list
+	goto
+	RIGHT_BRACKET_CURLY
+	ELSE_WORD LEFT_BRACKET_CURLY
+	marker
+	statement_list
+	RIGHT_BRACKET_CURLY
+	{
+		setCodeSteps($3.trueList,$6);
+		setCodeSteps($3.falseList,$12);
+		$$.nextList = getNextStep($7.nextList, $13.nextList);
+		$$.nextList->push_back($8);
+	}
+	;
+while:
+	marker
+	WHILE_WORD LEFT_BRACKET
+	b_expression
+	RIGHT_BRACKET LEFT_BRACKET_CURLY
+	marker
+	statement_list
+	RIGHT_BRACKET_CURLY
+	{
+		generateByteCode("goto " + getLabel($1));
+
+		setCodeSteps($8.nextList,$1);
+		setCodeSteps($4.trueList,$7);
+		$$.nextList = $4.falseList;
+	}
+	;
+for:
+	FOR_WORD
+	LEFT_BRACKET
+	assignment
+	marker
+	b_expression
+	SEMI_COLON
+	marker
+	assignment
+	goto
+	RIGHT_BRACKET
+	LEFT_BRACKET_CURLY
+	marker
+	statement_list
+	goto
+	RIGHT_BRACKET_CURLY
+	{
+		setCodeSteps($5.trueList,$12);
+		vector<int> * v = new vector<int> ();
+		v->push_back($9);
+		setCodeSteps(v,$4);
+		v = new vector<int>();
+		v->push_back($14);
+		setCodeSteps(v,$7);
+		setCodeSteps($13.nextList,$7);
+		$$.nextList = $5.falseList;
+	}
+	;
+assignment:
+	IDENTIFIER EQUALS expression SEMI_COLON
+	{
+		string str($1);
+		/* after expression finishes, its result should be on top of stack.
+		we just store the top of stack to the identifier*/
+		if(checkId(str))
+		{
+			if($3.sType == symbolTable[str].second)
+			{
+				if($3.sType == INT_T)
+				{
+					generateByteCode("istore " + to_string(symbolTable[str].first));
+				}else if ($3.sType == FLOAT_T)
+				{
+					generateByteCode("fstore " + to_string(symbolTable[str].first));
+				}
+			}
+			else
+			{
+				castGeneral(str,$3.sType);	/* do castGeneraling */
+			}
+		}else{
+			string err = "identifier: "+str+" isn't declared in this scope";
+			yyerror(err.c_str());
+		}
+	}
+	;
+assignment_:
+IDENTIFIER EQUALS expression SEMI_COLON
+{
+	string str($1);
+	/* after expression finishes, its result should be on top of stack.
+	we just store the top of stack to the identifier*/
+	if(checkId(str))
+	{
+		if($3.sType == symbolTable[str].second)
+		{
+			if($3.sType == INT_T)
+			{
+				generateByteCode("istore " + to_string(symbolTable[str].first));
+			}else if ($3.sType == FLOAT_T)
+			{
+				generateByteCode("fstore " + to_string(symbolTable[str].first));
+			}
+		}
+		else
+		{
+			castGeneral(str,$3.sType);	/* do castGeneraling */
+		}
+	}else{
+		string err = "identifier: "+str+" isn't declared in this scope";
+		yyerror(err.c_str());
+	}
+}
+;
+expression:
+	FLOAT 	{$$.sType = FLOAT_T; generateByteCode("ldc "+to_string($1));}
+	| INT 	{$$.sType = INT_T;  generateByteCode("ldc "+to_string($1));}
+	| expression ARITH_OP expression	{castGeneralOperations($1.sType, $3.sType, string($2));}
+	| IDENTIFIER {
+		string str($1);
+		if(checkId(str))
+		{
+			$$.sType = symbolTable[str].second;
+			if(symbolTable[str].second == INT_T)
+			{
+				generateByteCode("iload " + to_string(symbolTable[str].first));
+			}else if (symbolTable[str].second == FLOAT_T)
+			{
+				generateByteCode("fload " + to_string(symbolTable[str].first));
+			}
+		}
+		else
+		{
+			string err = "identifier: "+str+" isn't declared in this scope";
+			yyerror(err.c_str());
+			$$.sType = ERROR_T;
+		}
+	}
+	| LEFT_BRACKET expression RIGHT_BRACKET {$$.sType = $2.sType;}
+	;
+system_print:
+	SYSTEM_OUT LEFT_BRACKET expression RIGHT_BRACKET SEMI_COLON
+	{
+		if($3.sType == INT_T)
+		{
+			/* expression is at top of stack now */
+			/* save it at the predefined temp syso var */
+			generateByteCode("istore " + to_string(symbolTable["1syso_int_var"].first));
+			/* call syso */
+			generateByteCode("getstatic      java/lang/System/out Ljava/io/PrintStream;");
+			/*insert param*/
+			generateByteCode("iload " + to_string(symbolTable["1syso_int_var"].first ));
+			/*invoke syso*/
+			generateByteCode("invokevirtual java/io/PrintStream/println(I)V");
+
+		}else if ($3.sType == FLOAT_T)
+		{
+			generateByteCode("fstore " + to_string(symbolTable["1syso_float_var"].first));
+			/* call syso */
+			generateByteCode("getstatic      java/lang/System/out Ljava/io/PrintStream;");
+			/*insert param*/
+			generateByteCode("fload " + to_string(symbolTable["1syso_float_var"].first ));
+			/*invoke syso*/
+			generateByteCode("invokevirtual java/io/PrintStream/println(F)V");
+		}
+	}
+	;
+b_expression:
+	BOOL
+	{
+		if($1)
+		{
+			/* bool is 'true' */
+			$$.trueList = new vector<int> ();
+			$$.trueList->push_back(codeSteps.size());
+			$$.falseList = new vector<int>();
+			generateByteCode("goto ");
+		}else
+		{
+			$$.trueList = new vector<int> ();
+			$$.falseList= new vector<int>();
+			$$.falseList->push_back(codeSteps.size());
+			generateByteCode("goto ");
+		}
+	}
+	|b_expression
+	BOOL_OP
+	marker
+	b_expression
+	{
+		if(!strcmp($2, "&&"))
+		{
+			setCodeSteps($1.trueList, $3);
+			$$.trueList = $4.trueList;
+			$$.falseList = getNextStep($1.falseList,$4.falseList);
+		}
+		else if (!strcmp($2,"||"))
+		{
+			setCodeSteps($1.falseList,$3);
+			$$.trueList = getNextStep($1.trueList, $4.trueList);
+			$$.falseList = $4.falseList;
+		}
+	}
+	| expression RELA_OP expression
+	{
+		string op ($2);
+		$$.trueList = new vector<int>();
+		$$.trueList ->push_back (codeSteps.size());
+		$$.falseList = new vector<int>();
+		$$.falseList->push_back(codeSteps.size()+1);
+		generateByteCode(getOp(op)+ " ");
+		generateByteCode("goto ");
+	}
+	/*|expression RELA_OP BOOL 	// to be considered */
+	;
+%%
+
+main (int argv, char * argc[])
+{
+	FILE *myfile;
+	if(argv == 1)
+	{
+		myfile = fopen("input_code.txt", "r");
+		outfileName = "input_code.txt";
+	}
+	else
+	{
+		myfile = fopen(argc[1], "r");
+		outfileName = string(argc[1]);
+	}
+	if (!myfile) {
+		printf("I can't open input code file!\n");
+		char cCurrentPath[200];
+		 if (!getcwd(cCurrentPath, sizeof(cCurrentPath)))
+		     {
+		     return -1;
+		     }
+		printf("%s\n",cCurrentPath);
+				getchar();
+
+		return -1;
+
+	}
+	yyin = myfile;
+	yyparse();
+	//getchar();
+	printCode();
+}
+
+void yyerror(const char * s)
+{
+	printf("error@%d: %s\n",lineCounter, s);
+}
+
+void initializeHeader()
+{
+	generateByteCode(".source " + outfileName);
+	generateByteCode(".class public test\n.super java/lang/Object\n"); //code for defining class
+	generateByteCode(".method public <init>()V");
+	generateByteCode("aload_0");
+	generateByteCode("invokenonvirtual java/lang/Object/<init>()V");
+	generateByteCode("return");
+	generateByteCode(".end method\n");
+	generateByteCode(".method public static main([Ljava/lang/String;)V");
+	generateByteCode(".limit locals 100\n.limit stack 100");
+
+	/* generate temporal vars for syso*/
+	setAllowedVariables("1syso_int_var",INT_T);
+	setAllowedVariables("1syso_float_var",FLOAT_T);
+
+	/*generate line*/
+	generateByteCode(".line 1");
+}
+
+void initializeFooter()
+{
+	generateByteCode("return");
+	generateByteCode(".end method");
+}
+
+void castGeneral (string str, int t1)
+{
+	yyerror("castGeneraling not implemented yet :)");
+}
+
+void castGeneralOperations(int from , int to, string op)
+{
+	if(from == to)
+	{
+		if(from == INT_T)
+		{
+			generateByteCode("i" + getOp(op));
+		}else if (from == FLOAT_T)
+		{
+			generateByteCode("f" + getOp(op));
+		}
+	}
+	else
+	{
+		yyerror("castGeneral not implemented yet");
+	}
+}
+
+
+bool checkId(string op)
+{
+	return (symbolTable.find(op) != symbolTable.end());
+}
+
+string initiateLabel()
+{
+	return "L_"+to_string(labelCounter++);
+}
+
+string getOp(string op)
+{
+	if(inst_list.find(op) != inst_list.end())
+	{
+		return inst_list[op];
+	}
+	return "";
+}
+
+
+void setAllowedVariables(string name, int type)
+{
+	if(checkId(name))
+	{
+		string err = "variable: "+name+" declared before";
+		yyerror(err.c_str());
+	} else
+	{
+		if(type == INT_T)
+		{
+			generateByteCode("iconst_0\nistore " + to_string(globalVarNum));
+		}
+		else if ( type == FLOAT_T)
+		{
+			generateByteCode("fconst_0\nfstore " + to_string(globalVarNum));
+		}
+		symbolTable[name] = make_pair(globalVarNum++,(type_enum)type);
+	}
+}
+
+string getLabel(int n)
+{
+	return "L_"+to_string(n);
+}
+
+
+void generateByteCode(string x)
+{
+	codeSteps.push_back(x);
+}
+
+void printCode(void)
+{
+	for ( int i = 0 ; i < codeSteps.size() ; i++)
+	{
+		fout<<codeSteps[i]<<endl;
+	}
+}
+
+vector<int> * getNextStep(vector<int> *list1, vector<int> *list2)
+{
+	if(list1 && list2){
+		vector<int> *list = new vector<int> (*list1);
+		list->insert(list->end(), list2->begin(),list2->end());
+		return list;
+	} else if(list1)
+	{
+		return list1;
+	} else if (list2)
+	{
+		return list2;
+	} else
+	{
+		return new vector<int>();
+	}
+}
+
+void setCodeSteps(vector<int> *lists, int ind)
+{
+	if(lists)
+	for(int i =0 ; i < lists->size() ; i++)
+	{
+		codeSteps[(*lists)[i]] = codeSteps[(*lists)[i]] + getLabel(ind);
+	}
+}
