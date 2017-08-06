@@ -1,0 +1,281 @@
+# depslib dependency file v1.0
+1491609049 source:c:\users\fady yousry\desktop\phase1\main.cpp
+	<iostream>
+	<fstream>
+	<sstream>
+	<stack>
+	<limits>
+	<string>
+	<vector>
+	"Lexical.h"
+
+1491609590 "
+
+1491609590 source:c:\users\fady yousry\desktop\phase1\src\lexical.cpp
+	"Lexical.h"
+
+1491594873 c:\users\fady yousry\desktop\phase1\include\lexical.h
+	"NFA.h"
+	<bits/stdc++.h>
+
+1491589783 ++.h>
+
+1491589783 c:\users\fady yousry\desktop\phase1\include\nfa.h
+	<bits/stdc++.h>
+
+1491609465 source:c:\users\fady yousry\desktop\phase1\src\nfa.cpp
+	"NFA.h"
+
+1491675693 source:/home/fyousry/Documents/phase1/main.cpp
+	<bits/stdc++.h>
+	"Lexical.h"
+
+1491672544 /home/fyousry/Documents/phase1/include/Lexical.h
+	"NFA.h"
+	<bits/stdc++.h>
+
+1491589783 /home/fyousry/Documents/phase1/include/NFA.h
+	<bits/stdc++.h>
+
+1491678023 source:/home/fyousry/Documents/phase1/src/Lexical.cpp
+	"Lexical.h"
+
+1491675996 source:/home/fyousry/Documents/phase1/src/NFA.cpp
+	"NFA.h"
+
+1491673444 source:c:\users\fady yousry\downloads\phase1\main.cpp
+	<bits/stdc++.h>
+	"Lexical.h"
+
+1491673422 c:\users\fady yousry\downloads\phase1\include\lexical.h
+	"NFA.h"
+	<bits/stdc++.h>
+
+1491673083 c:\users\fady yousry\downloads\phase1\include\nfa.h
+	<bits/stdc++.h>
+
+1491673489 source:c:\users\fady yousry\downloads\phase1\src\lexical.cpp
+	"Lexical.h"
+
+1491673705 source:c:\users\fady yousry\downloads\phase1\src\nfa.cpp
+	"NFA.h"
+
+1491737806 source:c:\new folder\phase1compilers\phase1\main.cpp
+	<bits/stdc++.h>
+	"Lexical.h"
+	"DfaConverter.h"
+	"minimizer.h"
+
+1491673422 c:\new folder\phase1compilers\phase1\include\lexical.h
+	"NFA.h"
+	<bits/stdc++.h>
+
+1491673083 c:\new folder\phase1compilers\phase1\include\nfa.h
+	<bits/stdc++.h>
+
+1491673489 source:c:\new folder\phase1compilers\phase1\src\lexical.cpp
+	"Lexical.h"
+
+1491673705 source:c:\new folder\phase1compilers\phase1\src\nfa.cpp
+	"NFA.h"
+
+1491738275 source:c:\new folder\phase1compilers\phase1\dfaconverter.cpp
+	<bits/stdc++.h>
+	"DfaConverter.h"
+
+1491707112 c:\new folder\phase1compilers\phase1\dfaconverter.h
+	<bits/stdc++.h>
+
+1491740969 source:c:\new folder\phase1compilers\phase1\src\minimizer.cpp
+	"minimizer.h"
+
+1491591096 c:\new folder\phase1compilers\phase1\include\minimizer.h
+	"bits/stdc++.h"
+	"patterns_recognizer.h"
+
+1491599976 c:\new folder\phase1compilers\phase1\include\patterns_recognizer.h
+	"bits/stdc++.h"
+
+1491599976 source:c:\new folder\phase1compilers\phase1\src\patterns_recognizer.cpp
+	"patterns_recognizer.h"
+	<iostream>
+	<fstream>
+
+1491738275 source:c:\users\owner.lenovo\desktop\phase1compilers\phase1\dfaconverter.cpp
+	<bits/stdc++.h>
+	"DfaConverter.h"
+
+1491707112 c:\users\owner.lenovo\desktop\phase1compilers\phase1\dfaconverter.h
+	<bits/stdc++.h>
+
+1491737806 source:c:\users\owner.lenovo\desktop\phase1compilers\phase1\main.cpp
+	<bits/stdc++.h>
+	"Lexical.h"
+	"DfaConverter.h"
+	"minimizer.h"
+
+1491673422 c:\users\owner.lenovo\desktop\phase1compilers\phase1\include\lexical.h
+	"NFA.h"
+	<bits/stdc++.h>
+
+1491673083 c:\users\owner.lenovo\desktop\phase1compilers\phase1\include\nfa.h
+	<bits/stdc++.h>
+
+1491750519 c:\users\owner.lenovo\desktop\phase1compilers\phase1\include\minimizer.h
+	"bits/stdc++.h"
+	"patterns_recognizer.h"
+
+1491599976 c:\users\owner.lenovo\desktop\phase1compilers\phase1\include\patterns_recognizer.h
+	"bits/stdc++.h"
+
+1491673489 source:c:\users\owner.lenovo\desktop\phase1compilers\phase1\src\lexical.cpp
+	"Lexical.h"
+
+1491750531 source:c:\users\owner.lenovo\desktop\phase1compilers\phase1\src\minimizer.cpp
+	"minimizer.h"
+
+1491673705 source:c:\users\owner.lenovo\desktop\phase1compilers\phase1\src\nfa.cpp
+	"NFA.h"
+
+1491770105 source:c:\users\owner.lenovo\desktop\phase1compilers\phase1\src\patterns_recognizer.cpp
+	"patterns_recognizer.h"
+	<iostream>
+	<fstream>
+
+1491738275 source:c:\users\fady yousry\desktop\phase1compilers\phase1\dfaconverter.cpp
+	<bits/stdc++.h>
+	"DfaConverter.h"
+
+1491707112 c:\users\fady yousry\desktop\phase1compilers\phase1\dfaconverter.h
+	<bits/stdc++.h>
+
+1491805250 source:c:\users\fady yousry\desktop\phase1compilers\phase1\main.cpp
+	<bits/stdc++.h>
+	"Scanner.h"
+	"DfaConverter.h"
+	"minimizer.h"
+
+1491766617 c:\users\fady yousry\desktop\phase1compilers\phase1\include\lexical.h
+	"NFA.h"
+	<bits/stdc++.h>
+
+1491673083 c:\users\fady yousry\desktop\phase1compilers\phase1\include\nfa.h
+	<bits/stdc++.h>
+
+1491805044 c:\users\fady yousry\desktop\phase1compilers\phase1\include\minimizer.h
+	"bits/stdc++.h"
+	"patterns_recognizer.h"
+
+1491809749 c:\users\fady yousry\desktop\phase1compilers\phase1\include\patterns_recognizer.h
+	"bits/stdc++.h"
+
+1491805382 source:c:\users\fady yousry\desktop\phase1compilers\phase1\src\minimizer.cpp
+	"minimizer.h"
+
+1491673705 source:c:\users\fady yousry\desktop\phase1compilers\phase1\src\nfa.cpp
+	"NFA.h"
+
+1491765810 source:c:\users\fady yousry\desktop\phase1compilers\phase1\src\lexical.cpp
+	"Lexical.h"
+
+1491767504 c:\users\fady yousry\desktop\phase1compilers\phase1\include\scanner.h
+	"NFA.h"
+	<bits/stdc++.h>
+
+1491767959 source:c:\users\fady yousry\desktop\phase1compilers\phase1\src\scanner.cpp
+	"Scanner.h"
+
+1491707112 c:\users\fady yousry\desktop\phase1compilers\phase1\include\dfaconverter.h
+	<bits/stdc++.h>
+
+1491768166 source:c:\users\fady yousry\desktop\phase1compilers\phase1\src\dfaconverter.cpp
+	<bits/stdc++.h>
+	"DfaConverter.h"
+
+1491810597 source:c:\users\fady yousry\desktop\phase1compilers\phase1\src\patterns_recognizer.cpp
+	"patterns_recognizer.h"
+	<iostream>
+	<fstream>
+
+1491805250 source:c:\users\owner.lenovo\desktop\phase1\main.cpp
+	<bits/stdc++.h>
+	"Scanner.h"
+	"DfaConverter.h"
+	"minimizer.h"
+
+1491767504 c:\users\owner.lenovo\desktop\phase1\include\scanner.h
+	"NFA.h"
+	<bits/stdc++.h>
+
+1491673083 c:\users\owner.lenovo\desktop\phase1\include\nfa.h
+	<bits/stdc++.h>
+
+1491707112 c:\users\owner.lenovo\desktop\phase1\include\dfaconverter.h
+	<bits/stdc++.h>
+
+1491805044 c:\users\owner.lenovo\desktop\phase1\include\minimizer.h
+	"bits/stdc++.h"
+	"patterns_recognizer.h"
+
+1491809749 c:\users\owner.lenovo\desktop\phase1\include\patterns_recognizer.h
+	"bits/stdc++.h"
+
+1491768166 source:c:\users\owner.lenovo\desktop\phase1\src\dfaconverter.cpp
+	<bits/stdc++.h>
+	"DfaConverter.h"
+
+1491811223 source:c:\users\owner.lenovo\desktop\phase1\src\minimizer.cpp
+	"minimizer.h"
+
+1491673705 source:c:\users\owner.lenovo\desktop\phase1\src\nfa.cpp
+	"NFA.h"
+
+1491767959 source:c:\users\owner.lenovo\desktop\phase1\src\scanner.cpp
+	"Scanner.h"
+
+1491831669 source:c:\users\owner.lenovo\desktop\phase1\src\patterns_recognizer.cpp
+	"patterns_recognizer.h"
+	<iostream>
+	<fstream>
+
+1491837763 source:c:\users\fady yousry\downloads\compressed\phase1\main.cpp
+	<bits/stdc++.h>
+	"Scanner.h"
+	"DfaConverter.h"
+	"minimizer.h"
+
+1491842522 c:\users\fady yousry\downloads\compressed\phase1\include\scanner.h
+	"NFA.h"
+	<bits/stdc++.h>
+
+1491673082 c:\users\fady yousry\downloads\compressed\phase1\include\nfa.h
+	<bits/stdc++.h>
+
+1491707112 c:\users\fady yousry\downloads\compressed\phase1\include\dfaconverter.h
+	<bits/stdc++.h>
+
+1491805044 c:\users\fady yousry\downloads\compressed\phase1\include\minimizer.h
+	"bits/stdc++.h"
+	"patterns_recognizer.h"
+
+1491809748 c:\users\fady yousry\downloads\compressed\phase1\include\patterns_recognizer.h
+	"bits/stdc++.h"
+
+1491768166 source:c:\users\fady yousry\downloads\compressed\phase1\src\dfaconverter.cpp
+	<bits/stdc++.h>
+	"DfaConverter.h"
+
+1491673704 source:c:\users\fady yousry\downloads\compressed\phase1\src\nfa.cpp
+	"NFA.h"
+
+1491844805 source:c:\users\fady yousry\downloads\compressed\phase1\src\scanner.cpp
+	"Scanner.h"
+
+1491837763 source:c:\users\fady yousry\downloads\compressed\phase1\src\minimizer.cpp
+	"minimizer.h"
+
+1491836826 source:c:\users\fady yousry\downloads\compressed\phase1\src\patterns_recognizer.cpp
+	"patterns_recognizer.h"
+	<iostream>
+	<fstream>
+
